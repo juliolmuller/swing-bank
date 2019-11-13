@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    private static final String PROPS_FILE = "/br/ufpr/lpoo2/db.properties";
+    private static final String PROPS_FILE = "/db.properties";
     private static final Properties PROPS = new Properties();
 
     private Connection connection;
