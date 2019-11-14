@@ -1,6 +1,6 @@
 package br.ufpr.lpoo2.controller;
 
-import java.awt.event.ActionEvent;
+import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -11,9 +11,10 @@ import br.ufpr.lpoo2.model.dao.ContactDAO;
 import br.ufpr.lpoo2.view.ContactView;
 
 public class ContactController {
+
     private final ContactTableModel model;
     private final ContactView view;
-    private int linhaClicada = -1;
+    private int selectedRow = -1;
     private final ContactDAO dao;
 
     public ContactController(ContactTableModel model, ContactView view, ContactDAO dao) {
@@ -23,92 +24,82 @@ public class ContactController {
     }
 
     public void initController() {
-        // Registra o modelo de tabela na tabela
-        view.getViewTable().setModel(model);
-        // Registra os eventos
-        view.getListButton().addActionListener((ActionEvent evt) -> listAll());
-        view.getViewTable().addMouseListener(new MouseAdapter() {
+        this.view.getViewTable().setModel(this.model);
+        this.view.getListButton().addActionListener(event -> listAll());
+        this.view.getViewTable().addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                marcaContatosSelecionados(evt);
+            public void mouseClicked(MouseEvent event) {
+                checkSelectedContact(event);
             }
         });
-        view.getCleanButton().addActionListener((ActionEvent evt) -> limparViewTabela());
-        view.getDeleteButton().addActionListener((ActionEvent evt) -> excluirContatos());
-        view.getNewButton().addActionListener((ActionEvent evt) -> incluirContato());
-        view.getUpdateButton().addActionListener((ActionEvent evt) -> atualizarContato());
+        this.view.getCleanButton().addActionListener(event -> cleanViewTable());
+        this.view.getDeleteButton().addActionListener(event -> deleteContacts());
+        this.view.getNewButton().addActionListener(event -> createContact());
+        this.view.getUpdateButton().addActionListener(event -> updateContact());
         initView();
     }
 
     public void initView() {
-        java.awt.EventQueue.invokeLater(() -> {
-            view.setVisible(true);
-        });
+        EventQueue.invokeLater(() -> this.view.setVisible(true));
     }
 
     private void listAll() {
         try {
-            List<Contact> list = dao.getList();
-            model.setListaContatos(list);
+            List<Contact> contacts = this.dao.getList();
+            this.model.setContacts(contacts);
         } catch (Exception ex) {
-            view.showError("Erro ao listar contato. Ex.:" + ex);
+            this.view.showError("Erro ao listar contato. Ex.:" + ex);
         }
     }
 
-    private void marcaContatosSelecionados(MouseEvent evt) {
-        // Pega a linha clicada
-        linhaClicada = view.getSelectedLine(evt);
-        // Pega o contato da linha clicada
-        Contact contato = model.getContato(linhaClicada);
-        // Seta os dados nos componentes
-        view.setContact(contato);
+    private void checkSelectedContact(MouseEvent event) {
+        this.selectedRow = view.getSelectedLine(event);
+        Contact contact = this.model.getContact(this.selectedRow);
+        this.view.setContact(contact);
     }
 
-    private void limparViewTabela() {
-        model.limpaTabela();
+    private void cleanViewTable() {
+        this.model.cleanTable();
     }
 
-    private void excluirContatos() {
+    private void deleteContacts() {
         try {
-            int[] linhasSelecionadas = view.getViewTable().getSelectedRows();
-            List<Contact> listaExcluir = new ArrayList<>();
-            for (int i = 0; i < linhasSelecionadas.length; i++) {
-                Contact contato = model.getContato(linhasSelecionadas[i]);
-                dao.delete(contato);
-                listaExcluir.add(contato);
+            int[] selectedRows = view.getViewTable().getSelectedRows();
+            List<Contact> deletionList = new ArrayList<>();
+            for (int i = 0; i < selectedRows.length; i++) {
+                Contact contact = this.model.getContact(selectedRows[i]);
+                this.dao.delete(contact);
+                deletionList.add(contact);
 
             }
-            listaExcluir.forEach((contato) -> {
-                model.removeContato(contato);
-            });
+            deletionList.forEach(contact -> this.model.removeContact(contact));
 
         } catch (Exception ex) {
-            view.showError("Erro ao excluir contato. " + ex);
+            this.view.showError("Erro ao excluir contato. " + ex);
         }
     }
 
-    private void incluirContato() {
+    private void createContact() {
         try {
-            Contact contato = view.getContact();
-            dao.insert(contato);
-            model.adicionaContato(contato);
+            Contact contact = view.getContact();
+            this.dao.insert(contact);
+            this.model.createContact(contact);
         } catch (Exception ex) {
-            view.showError("Erro ao incluir contato. " + ex);
+            this.view.showError("Erro ao incluir contato. " + ex);
         }
     }
 
-    private void atualizarContato() {
+    private void updateContact() {
         try {
-            if (linhaClicada != -1) {
-                Contact contato = model.getContato(linhaClicada);
-                dao.update(contato);
-                Contact contatoView = view.getContact();
-                contato.clone(contatoView);
-                // Atualiza tabela
-                model.fireTableRowsUpdated(linhaClicada, linhaClicada);
+            if (this.selectedRow != -1) {
+                Contact contact = this.model.getContact(this.selectedRow);
+                dao.update(contact);
+                Contact viewContact = this.view.getContact();
+                contact.clone(viewContact);
+                this.model.fireTableRowsUpdated(this.selectedRow, this.selectedRow);
             }
         } catch (Exception ex) {
-            view.showError("Erro ao atualizar contato. " + ex);
+            this.view.showError("Erro ao atualizar contato. " + ex);
         }
     }
 }

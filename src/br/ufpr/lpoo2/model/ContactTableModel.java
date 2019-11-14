@@ -7,111 +7,103 @@ import javax.swing.table.AbstractTableModel;
 
 public class ContactTableModel extends AbstractTableModel {
 
-    private String[] colunas = new String[] { "id", "Nome", "email", "Nascimento", "Endereco" };
-    private List<Contact> lista = new ArrayList();
-
-    public ContactTableModel(List<Contact> lista) {
-        this.lista = lista;
-    }
+    private String[] columns = new String[] { "ID", "Nome", "email", "Nascimento", "Endereco" };
+    private List<Contact> contacts = new ArrayList<>();
 
     public ContactTableModel() {}
 
+    public ContactTableModel(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public int getRowCount() {
-        return this.lista.size();
+        return this.contacts.size();
     }
 
     @Override
     public int getColumnCount() {
-        return this.colunas.length;
+        return this.columns.length;
     }
 
     @Override
     public String getColumnName(int index) {
-        return this.colunas[index];
+        return this.columns[index];
     }
 
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;
-        // if(column==0)
-        // return false;
-        // return true;
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Contact customer = lista.get(rowIndex);
-        switch (columnIndex) {
-        case 0:
-            return customer.getId();// if column 0 (code)
-        case 1:
-            return customer.getName();// if column 1 (name)
-        case 2:
-            return customer.getEmail();// if column 2 (birthday)
-        case 3:
-            return customer.getDataNascimento();
-        case 4:
-            return customer.getAddress();
-        default:
-            return null;
+    public Object getValueAt(int rowIndex, int colIndex) {
+        Contact contact = contacts.get(rowIndex);
+        switch (colIndex) {
+            case 0:
+                return contact.getId();
+            case 1:
+                return contact.getName();
+            case 2:
+                return contact.getEmail();
+            case 3:
+                return contact.getDateBirth();
+            case 4:
+                return contact.getAddress();
         }
+        return null;
     }
 
     @Override
-    public void setValueAt(Object value, int row, int col) {
-        Contact customer = lista.get(row);
-        switch (col) {
-        case 0:
-            customer.setId((Long) value); // if column 0 (code)
-            break;
-        case 1:
-            customer.setNome((String) value);
-            break;
-        case 2:
-            customer.setEmail((String) value);
-            break;
-        case 3:
-            LocalDate data = LocalDate.parse((String) value);
-            customer.setDataNascimento(data);
-            break;
-        case 4:
-            customer.setAddress((String) value);
-            break;
-        default:
+    public void setValueAt(Object value, int rowIndex, int colIndex) {
+        Contact contact = contacts.get(rowIndex);
+        switch (colIndex) {
+            case 0:
+                contact.setId((Long) value);
+                break;
+            case 1:
+                contact.setNome((String) value);
+                break;
+            case 2:
+                contact.setEmail((String) value);
+                break;
+            case 3:
+                LocalDate dateBirth = LocalDate.parse((String) value);
+                contact.setDateBirth(dateBirth);
+                break;
+            case 4:
+                contact.setAddress((String) value);
+                break;
         }
-        this.fireTableCellUpdated(row, col);
+        fireTableCellUpdated(rowIndex, colIndex);
     }
 
-    public boolean removeContato(Contact customer) {
-        int linha = this.lista.indexOf(customer);
-        boolean result = this.lista.remove(customer);
-        this.fireTableRowsDeleted(linha, linha);// update JTable
+    public boolean removeContact(Contact contact) {
+        int rowIndex = this.contacts.indexOf(contact);
+        boolean result = this.contacts.remove(contact);
+        fireTableRowsDeleted(rowIndex, rowIndex);
         return result;
     }
 
-    public void adicionaContato(Contact customer) {
-        this.lista.add(customer);
-        // this.fireTableDataChanged();
-        this.fireTableRowsInserted(lista.size() - 1, lista.size() - 1);// update JTable
+    public void createContact(Contact contact) {
+        this.contacts.add(contact);
+        fireTableRowsInserted(this.contacts.size() - 1, this.contacts.size() - 1);
     }
 
-    public void setListaContatos(List<Contact> contatos) {
-        this.lista = contatos;
-        this.fireTableDataChanged();
-        // this.fireTableRowsInserted(0,contatos.size()-1);//update JTable
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+        fireTableDataChanged();
     }
 
-    public void limpaTabela() {
-        int indice = lista.size() - 1;
-        if (indice < 0)
-            indice = 0;
-        this.lista = new ArrayList();
-        this.fireTableRowsDeleted(0, indice);// update JTable
+    public void cleanTable() {
+        int contactsCount = contacts.size() - 1;
+        if (contactsCount < 0)
+            contactsCount = 0;
+        this.contacts = new ArrayList<>();
+        fireTableRowsDeleted(0, contactsCount);
     }
 
-    public Contact getContato(int linha) {
-        return lista.get(linha);
+    public Contact getContact(int rowIndex) {
+        return this.contacts.get(rowIndex);
     }
-
 }

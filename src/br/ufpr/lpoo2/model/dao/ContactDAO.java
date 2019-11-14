@@ -26,14 +26,15 @@ public class ContactDAO {
     }
 
     public void insert(Contact contact) {
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement stmtAdiciona = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
-            stmtAdiciona.setString(1, contact.getName());
-            stmtAdiciona.setString(2, contact.getEmail());
-            stmtAdiciona.setString(3, contact.getAddress());
-            stmtAdiciona.setDate(4, Date.valueOf(contact.getDataNascimento()));
-            stmtAdiciona.execute();
-            ResultSet rs = stmtAdiciona.getGeneratedKeys();
+        Connection conn = connectionFactory.getConnection();
+        try {
+            PreparedStatement stmt = conn.prepareStatement(this.insert, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, contact.getName());
+            stmt.setString(2, contact.getEmail());
+            stmt.setString(3, contact.getAddress());
+            stmt.setDate(4, Date.valueOf(contact.getDateBirth()));
+            stmt.execute();
+            ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
             long i = rs.getLong(1);
             contact.setId(i);
@@ -43,60 +44,53 @@ public class ContactDAO {
     }
 
     public List<Contact> getList() throws SQLException {
-        Connection connection = connectionFactory.getConnection();
+        Connection conn = connectionFactory.getConnection();
         ResultSet rs = null;
-        PreparedStatement stmtLista = connection.prepareStatement(select);
+        PreparedStatement stmt = conn.prepareStatement(this.select);
         try {
-            rs = stmtLista.executeQuery();
-            List<Contact> contatos = new ArrayList();
+            rs = stmt.executeQuery();
+            List<Contact> contacts = new ArrayList<>();
             while (rs.next()) {
-                // criando o objeto Contato
-                // Contato contato = new Contato();
                 long id = rs.getLong("id");
-                String nome = rs.getString("nome");
+                String name = rs.getString("nome");
                 String email = rs.getString("email");
-                String endereco = rs.getString("endereco");
-                LocalDate dataNascimento = rs.getDate("data_nasc").toLocalDate();
-
-                // adicionando o objeto à lista
-                contatos.add(new Contact(id, nome, email, endereco, dataNascimento));
+                String address = rs.getString("endereco");
+                LocalDate dateBirth = rs.getDate("data_nasc").toLocalDate();
+                contacts.add(new Contact(id, name, email, address, dateBirth));
             }
 
-            return contatos;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return contacts;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         } finally {
             rs.close();
-            stmtLista.close();
+            stmt.close();
         }
-
     }
 
     public void update(Contact contact) throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        PreparedStatement stmtAtualiza = connection.prepareStatement(update);
+        Connection conn = connectionFactory.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(this.update);
         try {
-            stmtAtualiza.setString(1, contact.getName());
-            stmtAtualiza.setString(2, contact.getEmail());
-            stmtAtualiza.setString(3, contact.getAddress());
-            stmtAtualiza.setDate(4, Date.valueOf(contact.getDataNascimento()));
-            stmtAtualiza.setLong(5, contact.getId());
-            stmtAtualiza.executeUpdate();
+            stmt.setString(1, contact.getName());
+            stmt.setString(2, contact.getEmail());
+            stmt.setString(3, contact.getAddress());
+            stmt.setDate(4, Date.valueOf(contact.getDateBirth()));
+            stmt.setLong(5, contact.getId());
+            stmt.executeUpdate();
         } finally {
-            stmtAtualiza.close();
+            stmt.close();
         }
-
     }
 
     public void delete(Contact contact) throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        PreparedStatement stmtExcluir;
-        stmtExcluir = connection.prepareStatement(delete);
+        Connection conn = connectionFactory.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(delete);
         try {
-            stmtExcluir.setLong(1, contact.getId());
-            stmtExcluir.executeUpdate();
+            stmt.setLong(1, contact.getId());
+            stmt.executeUpdate();
         } finally {
-            stmtExcluir.close();
+            stmt.close();
         }
     }
 }
