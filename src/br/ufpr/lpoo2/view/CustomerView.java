@@ -16,28 +16,28 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
-import br.ufpr.lpoo2.model.Contact;
+import br.ufpr.lpoo2.model.Customer;
 
-public class ContactView extends JFrame {
+public class CustomerView extends JFrame {
 
-    private JTextField addressField;
-    private JLabel addressLabel;
-    private JFormattedTextField dateBirthField;
+    private JLabel firstNameLabel;
+    private JTextField firstNameField;
+    private JLabel lastNameLabel;
+    private JTextField lastNameField;
     private JLabel birthdateLabel;
+    private JFormattedTextField dateBirthField;
+    private JLabel addressLabel;
+    private JTextField addressField;
     private JButton cleanButton;
     private JPanel contactFormPanel;
     private JButton deleteButton;
-    private JTextField emailField;
-    private JLabel emailLabel;
     private JButton listButton;
-    private JTextField nameField;
-    private JLabel nameLabel;
     private JButton newButton;
     private JScrollPane scrollPanel;
     private JButton updateButton;
     private JTable viewTable;
 
-    public ContactView() {
+    public CustomerView() {
         initComponents();
     }
 
@@ -50,7 +50,7 @@ public class ContactView extends JFrame {
     }
 
     public JTextField getEmailField() {
-        return this.emailField;
+        return this.lastNameField;
     }
 
     public JTextField getAdressField() {
@@ -70,7 +70,7 @@ public class ContactView extends JFrame {
     }
 
     public JTextField getNameField() {
-        return this.nameField;
+        return this.firstNameField;
     }
 
     public JButton getNewButton() {
@@ -91,12 +91,12 @@ public class ContactView extends JFrame {
         this.contactFormPanel = new JPanel();
         this.newButton = new JButton();
         this.updateButton = new JButton();
-        this.nameLabel = new JLabel();
+        this.firstNameLabel = new JLabel();
         this.birthdateLabel = new JLabel();
-        this.emailLabel = new JLabel();
-        this.nameField = new JTextField();
+        this.lastNameLabel = new JLabel();
+        this.firstNameField = new JTextField();
         this.dateBirthField = new JFormattedTextField();
-        this.emailField = new JTextField();
+        this.lastNameField = new JTextField();
         this.addressLabel = new JLabel();
         this.addressField = new JTextField();
 
@@ -109,9 +109,9 @@ public class ContactView extends JFrame {
         this.deleteButton.setText("Excluir");
         this.newButton.setText("Novo");
         this.updateButton.setText("Atualizar");
-        this.nameLabel.setText("Nome:");
+        this.firstNameLabel.setText("Nome:");
         this.birthdateLabel.setText("Data Nascimento:");
-        this.emailLabel.setText("E-mail:");
+        this.lastNameLabel.setText("E-mail:");
         this.addressLabel.setText("Endereço:");
         try {
             this.dateBirthField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -133,17 +133,17 @@ public class ContactView extends JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(contactFormPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                             .addGroup(contactFormPanelLayout.createSequentialGroup()
-                                .addComponent(emailLabel)
+                                .addComponent(lastNameLabel)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(emailField))
+                                .addComponent(lastNameField))
                             .addGroup(contactFormPanelLayout.createSequentialGroup()
                                 .addComponent(birthdateLabel)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dateBirthField))
                             .addGroup(contactFormPanelLayout.createSequentialGroup()
-                                .addComponent(nameLabel)
+                                .addComponent(firstNameLabel)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(nameField, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(firstNameField, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE))))
                     .addGroup(contactFormPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(newButton)
@@ -156,16 +156,16 @@ public class ContactView extends JFrame {
             .addGroup(GroupLayout.Alignment.TRAILING, contactFormPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(contactFormPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel)
-                    .addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(firstNameLabel)
+                    .addComponent(firstNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contactFormPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(birthdateLabel)
                     .addComponent(dateBirthField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contactFormPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel)
-                    .addComponent(emailField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lastNameLabel)
+                    .addComponent(lastNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contactFormPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(addressLabel)
@@ -215,20 +215,23 @@ public class ContactView extends JFrame {
         JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.ERROR_MESSAGE);
     }
 
-    public Contact getContact() {
-        String name = this.nameField.getText();
-        String email = this.emailField.getText();
-        String address = this.addressField.getText();
-        LocalDate dateBirth = LocalDate.parse(dateBirthField.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        Contact contact = new Contact(null, name, email, address, dateBirth);
-        return contact;
+    public Customer getCustomer() {
+        return new Customer(
+            null,
+            this.firstNameField.getText(),
+            this.lastNameField.getText(),
+            LocalDate.parse(dateBirthField.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            this.addressField.getText(),
+            null,
+            null
+        );
     }
 
-    public void setContact(Contact contact) {
-        this.nameField.setText(contact.getName());
-        this.dateBirthField.setText(contact.getDateBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        this.emailField.setText(contact.getEmail());
-        this.addressField.setText(contact.getAddress());
+    public void setContact(Customer customer) {
+        this.firstNameField.setText(customer.getFirstName());
+        this.lastNameField.setText(customer.getLastName());
+        this.dateBirthField.setText(customer.getDateBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        this.addressField.setText(customer.getAddress());
     }
 
     public int getSelectedLine(MouseEvent event) {
