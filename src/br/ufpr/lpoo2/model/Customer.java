@@ -1,43 +1,38 @@
 package br.ufpr.lpoo2.model;
 
-import java.time.LocalDate;
-
 public class Customer {
 
-    private Long id;
+    private Integer id;
     private String firstName;
     private String lastName;
-    private LocalDate dateBirth;
-    private String address;
     private String rg;
     private String cpf;
+    private String address;
 
     public Customer() {}
 
-    public Customer(Long id, String firstName, String lastName, LocalDate dateBirth, String address, String rg, String cpf) {
+    public Customer(Integer id, String firstName, String lastName, String rg, String cpf, String address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateBirth = dateBirth;
-        this.address = address;
         this.rg = rg;
         this.cpf = cpf;
+        this.address = address;
     }
 
     public void clone(Customer customer) {
         this.firstName = customer.firstName;
         this.lastName = customer.lastName;
-        this.dateBirth = customer.dateBirth;
-        this.address = customer.address;
         this.rg = customer.rg;
         this.cpf = customer.cpf;
+        this.address = customer.address;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,22 +52,6 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public LocalDate getDateBirth() {
-        return this.dateBirth;
-    }
-
-    public void setDateBirth(LocalDate dateBirth) {
-        this.dateBirth = dateBirth;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getRG() {
         return this.rg;
     }
@@ -87,5 +66,13 @@ public class Customer {
 
     public void setCPF(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
