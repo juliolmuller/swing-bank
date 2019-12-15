@@ -1115,30 +1115,6 @@ public class BankView extends javax.swing.JFrame {
         return this.getTable().rowAtPoint(evt.getPoint());
     }
 
-    public static void main(String args[]) {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BankView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(BankView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(BankView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(BankView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BankView().setVisible(true);
-            }
-        });
-    }
-
     public JButton getUpdateBtn() {
         return this.updateBtn;
     }
