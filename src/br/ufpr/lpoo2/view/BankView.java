@@ -254,14 +254,14 @@ public class BankView extends javax.swing.JFrame {
         firstNameField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                nomeFieldKeyTyped(evt);
+                firstNameFieldKeyTyped(evt);
             }
         });
         lastNameField.setNextFocusableComponent(addressField);
         lastNameField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                sobrenomeFieldKeyTyped(evt);
+                lastNameFieldKeyTyped(evt);
             }
         });
         addressField.setNextFocusableComponent(rgField);
@@ -274,7 +274,7 @@ public class BankView extends javax.swing.JFrame {
         addressField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                endereçoFieldKeyTyped(evt);
+                addressFieldKeyTyped(evt);
             }
         });
         rgField.setNextFocusableComponent(cpfField);
@@ -442,7 +442,7 @@ public class BankView extends javax.swing.JFrame {
         maxLimitField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                limiteFieldKeyTyped(evt);
+                maxLimitFieldKeyTyped(evt);
             }
         });
         GroupLayout painelContaCorrenteLayout = new GroupLayout(checkingAccountsPanel);
@@ -464,13 +464,13 @@ public class BankView extends javax.swing.JFrame {
         initialDepositField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                depositoInicialFieldActionPerformed(evt);
+                initialDepositFieldActionPerformed(evt);
             }
         });
         initialDepositField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                depositoInicialFieldKeyTyped(evt);
+                initialDepositFieldKeyTyped(evt);
             }
         });
         label32.setText("Deposito Inicial");
@@ -485,14 +485,14 @@ public class BankView extends javax.swing.JFrame {
         minBalanceField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                montanteMinimoFieldKeyTyped(evt);
+                minBalanceFieldKeyTyped(evt);
             }
         });
 
         minDepositField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                depositoMinimoFieldKeyTyped(evt);
+                minDepositFieldKeyTyped(evt);
             }
         });
         GroupLayout painelContaInvestimentoLayout = new GroupLayout(investmentAccountsPanel);
@@ -670,7 +670,7 @@ public class BankView extends javax.swing.JFrame {
         depositField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                depositarFieldKeyTyped(evt);
+                depositFieldKeyTyped(evt);
             }
         });
         label16.setText("Valor:");
@@ -679,14 +679,14 @@ public class BankView extends javax.swing.JFrame {
         withdrawalField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
-                sacarFieldKeyTyped(evt);
+                withdrawalFieldKeyTyped(evt);
             }
         });
         withdrawalBtn.setText("Sacar");
         withdrawalBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                sacarBtnActionPerformed(evt);
+                withdrawalBtnActionPerformed(evt);
             }
         });
         paymentBtn.setText("Remunerar");
@@ -833,7 +833,7 @@ public class BankView extends javax.swing.JFrame {
 
     private void endereçoFieldActionPerformed(ActionEvent evt) {}
 
-    private void depositoInicialFieldActionPerformed(ActionEvent evt) {}
+    private void initialDepositFieldActionPerformed(ActionEvent evt) {}
 
     private void manipularContaPanelMouseClicked(MouseEvent evt) {}
 
@@ -847,25 +847,25 @@ public class BankView extends javax.swing.JFrame {
 
     private void numContaFieldActionPerformed(ActionEvent evt) {}
 
-    private void sacarBtnActionPerformed(ActionEvent evt) {}
+    private void withdrawalBtnActionPerformed(ActionEvent evt) {}
 
     private void remunerarBtnActionPerformed(ActionEvent evt) {}
 
-    private void nomeFieldKeyTyped(KeyEvent evt) {
+    private void firstNameFieldKeyTyped(KeyEvent evt) {
         final int MAX_FIELD_LENGTH = 50;
         String firstName = firstNameField.getText();
         if (firstName.length() >= MAX_FIELD_LENGTH)
             evt.consume();
     }
 
-    private void sobrenomeFieldKeyTyped(KeyEvent evt) {
+    private void lastNameFieldKeyTyped(KeyEvent evt) {
         final int MAX_FIELD_LENGTH = 100;
         String lastName = lastNameField.getText();
         if (lastName.length() >= MAX_FIELD_LENGTH)
             evt.consume();
     }
 
-    private void endereçoFieldKeyTyped(KeyEvent evt) {
+    private void addressFieldKeyTyped(KeyEvent evt) {
         final int MAX_FIELD_LENGTH = 200;
         String address = addressField.getText();
         if (address.length() >= MAX_FIELD_LENGTH)
@@ -888,7 +888,7 @@ public class BankView extends javax.swing.JFrame {
             evt.consume();
     }
 
-    private void depositoInicialFieldKeyTyped(KeyEvent evt) {
+    private void initialDepositFieldKeyTyped(KeyEvent evt) {
         char key = evt.getKeyChar();
         String initialDeposit = initialDepositField.getText();
         if (
@@ -922,7 +922,7 @@ public class BankView extends javax.swing.JFrame {
         }
     }
 
-    private void limiteFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void maxLimitFieldKeyTyped(java.awt.event.KeyEvent evt) {
         char key = evt.getKeyChar();
         String maxLimit = maxLimitField.getText();
         if (
@@ -953,7 +953,7 @@ public class BankView extends javax.swing.JFrame {
         }
     }
 
-    private void montanteMinimoFieldKeyTyped(KeyEvent evt) {
+    private void minBalanceFieldKeyTyped(KeyEvent evt) {
         char key = evt.getKeyChar();
         String minBalance = minBalanceField.getText();
         if (
@@ -987,7 +987,7 @@ public class BankView extends javax.swing.JFrame {
         }
     }
 
-    private void depositoMinimoFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void minDepositFieldKeyTyped(java.awt.event.KeyEvent evt) {
         char key = evt.getKeyChar();
         String minDeposit = minDepositField.getText();
         if (
@@ -1021,7 +1021,7 @@ public class BankView extends javax.swing.JFrame {
         }
     }
 
-    private void depositarFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void depositFieldKeyTyped(java.awt.event.KeyEvent evt) {
         char key = evt.getKeyChar();
         String deposit = depositField.getText();
         if (
@@ -1055,7 +1055,7 @@ public class BankView extends javax.swing.JFrame {
         }
     }
 
-    private void sacarFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void withdrawalFieldKeyTyped(java.awt.event.KeyEvent evt) {
         char key = evt.getKeyChar();
         String withdrawal = withdrawalField.getText();
         if (
