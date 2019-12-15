@@ -32,6 +32,7 @@ import br.ufpr.lpoo2.model.Customer;
 @SuppressWarnings("serial")
 public class BankView extends javax.swing.JFrame {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private JButton assignBtn;
     private JButton cleanFormBtn;
     private JButton clenaBtn;
@@ -115,12 +116,14 @@ public class BankView extends javax.swing.JFrame {
     private JTextField minDepositField;
     private JTextField rgField;
     private JTextField withdrawalField;
+    // End of variables declaration//GEN-END:variables
 
     public BankView() {
         initComponents();
     }
 
     @Deprecated
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         accNumberField = new JTextField();
         accNumberField2 = new JTextField();
@@ -816,7 +819,7 @@ public class BankView extends javax.swing.JFrame {
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(accountPanel, GroupLayout.PREFERRED_SIZE, 475, Short.MAX_VALUE));
         pack();
-    }
+    }// </editor-fold>//GEN-END:initComponents
 
     private void excluirButtonActionPerformed(ActionEvent evt) {}
 
