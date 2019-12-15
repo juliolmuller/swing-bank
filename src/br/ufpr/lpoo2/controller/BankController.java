@@ -175,14 +175,14 @@ public class BankController {
             }
             this.model.setCustomers(customers);
         } catch (Exception ex) {
-            view.showError("Erro ao listar contato. Ex.:" + ex);
+            view.displayError("Erro ao listar contato. Ex.:" + ex);
         }
     }
 
     private void selectCustomers(MouseEvent evt) {
         this.clickedRow = view.getSelectedLine(evt);
         Customer customer = model.getCustomer(this.clickedRow);
-        this.view.setCliente(customer);
+        this.view.setCustomer(customer);
         this.view.getUpdateBtn().setEnabled(true);
         this.view.getInsertBtn().setEnabled(false);
         this.view.getCpfField().setEditable(false);
@@ -215,14 +215,14 @@ public class BankController {
             cleanForm();
             view.getFormStatusField().setText(notification);
         } catch (Exception ex) {
-            view.showError("Erro ao excluir contato. " + ex);
+            view.displayError("Erro ao excluir contato. " + ex);
         }
     }
 
     private void addCustomer() {
         String notification = "";
         try {
-            Customer customer = this.view.getCliente();
+            Customer customer = this.view.getCustomer();
             if (validade(customer) == true) {
                 this.customerDAO.insert(customer);
                 this.model.addCustomer(customer);
@@ -238,7 +238,7 @@ public class BankController {
                 this.view.getFormStatusField().setText(notification);
             }
         } catch (Exception ex) {
-            this.view.showError("Erro ao incluir contato. " + ex);
+            this.view.displayError("Erro ao incluir contato. " + ex);
         }
     }
 
@@ -248,7 +248,7 @@ public class BankController {
                 String notification = "";
                 Customer customer = this.model.getCustomer(clickedRow);
                 String oldCpf = customer.getCPF();
-                Customer customerView = view.getCliente();
+                Customer customerView = view.getCustomer();
                 customer.clone(customerView);
                 if (validade(customer) == true) {
                     this.customerDAO.update(customer);
@@ -264,7 +264,7 @@ public class BankController {
                 this.view.getFormStatusField().setText(notification);
             }
         } catch (Exception ex) {
-            this.view.showError("Erro ao atualizar contato. " + ex);
+            this.view.displayError("Erro ao atualizar contato. " + ex);
         }
     }
 

@@ -1089,11 +1089,11 @@ public class BankView extends javax.swing.JFrame {
         }
     }
 
-    public void showError(String message) {
+    public void displayError(String message) {
         JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.ERROR_MESSAGE);
     }
 
-    public Customer getCliente() {
+    public Customer getCustomer() {
         return new Customer(null,
             this.firstNameField.getText(),
             this.lastNameField.getText(),
@@ -1103,7 +1103,7 @@ public class BankView extends javax.swing.JFrame {
         );
     }
 
-    public void setCliente(Customer customer) {
+    public void setCustomer(Customer customer) {
         firstNameField.setText(customer.getFirstName());
         lastNameField.setText(customer.getLastName());
         rgField.setText(customer.getRG());
