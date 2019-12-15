@@ -1,23 +1,27 @@
 package br.ufpr.lpoo2;
 
 import javax.swing.JOptionPane;
-import br.ufpr.lpoo2.controller.CustomerController;
-import br.ufpr.lpoo2.model.CustomerTable;
+import br.ufpr.lpoo2.model.CustomerTableModel;
+import br.ufpr.lpoo2.controller.BankController;
+import br.ufpr.lpoo2.model.CpfComboBoxModel;
 import br.ufpr.lpoo2.model.dao.CustomerDAO;
+import br.ufpr.lpoo2.model.dao.AccountDAO;
 import br.ufpr.lpoo2.services.ConnectionFactory;
-import br.ufpr.lpoo2.view.CustomerView;
+import br.ufpr.lpoo2.view.BankView;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
-            CustomerDAO dao = new CustomerDAO(new ConnectionFactory());
-            CustomerTable model = new CustomerTable();
-            CustomerView view = new CustomerView();
-            CustomerController controller = new CustomerController(model, view, dao);
+            CustomerDAO clienteDao = new CustomerDAO(new ConnectionFactory());
+            AccountDAO contaDao = new AccountDAO(new ConnectionFactory());
+            CustomerTableModel model = new CustomerTableModel();
+            BankView view = new BankView();
+            CpfComboBoxModel cpfModel = new CpfComboBoxModel(clienteDao.list());
+            BankController controller = new BankController(model, view, clienteDao, contaDao, cpfModel);
             controller.initController();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao iniciar a aplicação. \n" + ex.getLocalizedMessage(), "", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao iniciar a aplicação. \n" + ex.getMessage(), "", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
